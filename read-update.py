@@ -27,3 +27,20 @@ def update_person(person_id, data: dict):
             return p
         
 #Products, CRUD
+
+@router.get("/products")
+def read_products():
+    return products
+
+@router.get("/products/{product_id}")
+def read_product(product_id):
+    for pr in products:
+        if pr["id"] == product_id:
+            return pr
+
+@router.put("/products/{product_id}")
+def update_product(product_id, data: dict):
+    for pr in products:
+        if pr["id"] == product_id:
+            pr.update(data)
+            return pr
