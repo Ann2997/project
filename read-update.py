@@ -7,7 +7,7 @@ router = APIRouter()
 persons = [{"id": 1, "name": "Alex"}]
 products = [{"id": 1, "name": "Nails"}]
 
-#Persons, CRUD
+#Persons
 
 @router.get("/persons")
 def read_persons():
@@ -26,7 +26,7 @@ def update_person(person_id, data: dict):
             p.update(data)
             return p
         
-#Products, CRUD
+#Products
 
 @router.get("/products")
 def read_products():
