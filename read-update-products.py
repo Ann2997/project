@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from inventory_alerts.db import connect_db
 
 router = APIRouter()
@@ -36,6 +36,9 @@ def read_product(product_id: int):
             WHERE product_id = %s
         """, (product_id,)).fetchone()
 
+    if not row:
+        raise HTTPException(status_code=404, detail="Product Not Found")
+
     return {
         "product_id": row[0],
         "sku": row[1],
@@ -59,6 +62,9 @@ def update_product(product_id: int, data: dict):
             updates.append(f"{key} = %s")
             values.append(value)
 
+    if not updates:
+        raise HTTPException(status_code=400, detail="No Fields To Update")
+
     values.append(product_id)
 
     with connect_db() as conn:
@@ -68,6 +74,9 @@ def update_product(product_id: int, data: dict):
             WHERE product_id = %s
             RETURNING product_id, sku, name, description, active, created_at, updated_at
         """, tuple(values)).fetchone()
+
+    if not result:
+        raise HTTPException(status_code=404, detail="Product Not Found")
 
     return {
         "product_id": result[0],
