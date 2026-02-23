@@ -16,14 +16,16 @@ def read_products():
     
     return [
         {
-            "product_id"
-            "sku"
-            "name"
-            "description"
-            "active"
-            "created_at"
-            "updated_at"
+            "product_id": r[0],
+            "sku": r[1],
+            "name": r[2],
+            "description": r[3],
+            "active": r[4],
+            "created_at": r[5],
+            "updated_at": r[6],
         }
         for r in rows
     ]
+
+
         
